@@ -49,6 +49,14 @@ class AuditTests(unittest.TestCase):
         skill = (root / 'SKILL.md').read_text(encoding='utf-8')
         self.assertIn('第五部分最后一个小节', skill)
 
+    def test_default_delivery_and_reference_rules(self):
+        root = Path(__file__).resolve().parents[1]
+        skill = (root / 'SKILL.md').read_text(encoding='utf-8')
+        for rule in ['带图片Markdown＋PDF', '红色＝参考', '粗红框整块突出',
+                     '图片文件内部本身也要有红框', '实测位置留空',
+                     '无需用户再次要求', '没有课件或实验要求时，只请求必要材料']:
+            self.assertIn(rule, skill)
+
 
 if __name__ == '__main__':
     unittest.main()
