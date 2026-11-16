@@ -39,6 +39,16 @@ class AuditTests(unittest.TestCase):
         self.manifest['requirements'][0]['status'] = 'excluded'
         self.assertTrue(module.audit(self.manifest, self.report, self.root))
 
+    def test_fixed_report_sections(self):
+        import re
+        root = Path(__file__).resolve().parents[1]
+        template = (root / 'assets/report-template.md').read_text(encoding='utf-8')
+        headings = re.findall(r'^## (.+)$', template, re.M)
+        self.assertEqual(headings, ['一、实验目的', '二、实验器材', '三、实验原理或相关知识',
+                                  '四、实验或程序运行结果、数据记录', '五、分析与讨论'])
+        skill = (root / 'SKILL.md').read_text(encoding='utf-8')
+        self.assertIn('第五部分最后一个小节', skill)
+
 
 if __name__ == '__main__':
     unittest.main()
